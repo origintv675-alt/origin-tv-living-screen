@@ -32,8 +32,8 @@ export const WALLPAPERS: Wallpaper[] = [
   { id: "waves", name: "Liquid Deep", src: wallHome, live: false },
 ];
 
-export const wallpaperById = (id: WallpaperId) =>
-  WALLPAPERS.find((w) => w.id === id) ?? WALLPAPERS[0];
+export const wallpaperById = (id: WallpaperId): Wallpaper =>
+  WALLPAPERS.find((w) => w.id === id) ?? WALLPAPERS[0]!;
 
 /* ---------- Accents ---------- */
 

@@ -40,9 +40,9 @@ export const useMusic = create<MusicState>()((set, get) => ({
   play: (id) => {
     const a = el();
     if (!a) return;
-    const nextId = id ?? get().currentId ?? TRACKS[0].id;
+    const nextId = id ?? get().currentId ?? TRACKS[0]!.id;
     if (nextId !== get().currentId) {
-      a.src = trackById(nextId)?.src ?? TRACKS[0].src;
+      a.src = trackById(nextId)?.src ?? TRACKS[0]!.src;
       set({ currentId: nextId, progress: 0 });
     }
     a.play().catch(() => set({ playing: false }));
@@ -53,7 +53,7 @@ export const useMusic = create<MusicState>()((set, get) => ({
     const a = el();
     if (!a) return;
     if (!get().currentId) {
-      get().play(TRACKS[0].id);
+      get().play(TRACKS[0]!.id);
       return;
     }
     if (get().playing) {
@@ -71,13 +71,13 @@ export const useMusic = create<MusicState>()((set, get) => ({
     const nextIdx = shuffle
       ? Math.floor(Math.random() * TRACKS.length)
       : (idx + 1) % TRACKS.length;
-    get().play(TRACKS[nextIdx].id);
+    get().play(TRACKS[nextIdx]!.id);
   },
 
   prev: () => {
     const idx = TRACKS.findIndex((t) => t.id === get().currentId);
     const prevIdx = (idx - 1 + TRACKS.length) % TRACKS.length;
-    get().play(TRACKS[prevIdx].id);
+    get().play(TRACKS[prevIdx]!.id);
   },
 
   setShuffle: (v) => set({ shuffle: v }),
