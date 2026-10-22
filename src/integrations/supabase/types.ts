@@ -14,7 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alarms: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          hour: number
+          id: string
+          label: string
+          minute: number
+          repeat_days: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          hour: number
+          id?: string
+          label?: string
+          minute?: number
+          repeat_days?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          hour?: number
+          id?: string
+          label?: string
+          minute?: number
+          repeat_days?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      media: {
+        Row: {
+          album: string
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          is_favorite: boolean
+          kind: string
+          mime_type: string
+          size_bytes: number
+          storage_path: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          album?: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          is_favorite?: boolean
+          kind: string
+          mime_type: string
+          size_bytes?: number
+          storage_path: string
+          title?: string
+          user_id: string
+        }
+        Update: {
+          album?: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          is_favorite?: boolean
+          kind?: string
+          mime_type?: string
+          size_bytes?: number
+          storage_path?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transfers: {
+        Row: {
+          code: string
+          created_at: string
+          download_count: number
+          expires_at: string
+          filename: string
+          id: string
+          mime_type: string
+          size_bytes: number
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          download_count?: number
+          expires_at?: string
+          filename: string
+          id?: string
+          mime_type: string
+          size_bytes?: number
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          download_count?: number
+          expires_at?: string
+          filename?: string
+          id?: string
+          mime_type?: string
+          size_bytes?: number
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
