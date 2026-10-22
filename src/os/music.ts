@@ -13,6 +13,7 @@ interface MusicState {
   prev: () => void;
   setShuffle: (v: boolean) => void;
   sync: (progress: number, duration: number, playing: boolean) => void;
+  stop: () => void;
   current: () => Track | null;
 }
 

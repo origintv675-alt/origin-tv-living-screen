@@ -42,6 +42,7 @@ export interface OsSettings {
   bedtimeTo: string;
   batterySaver: boolean;
   superBatterySaver: boolean;
+  dayTheme: boolean;
 
   /* Lock screen */
   lockWidgets: LockWidgets;
@@ -89,6 +90,7 @@ export const DEFAULT_SETTINGS: OsSettings = {
   bedtimeTo: "06:00",
   batterySaver: false,
   superBatterySaver: false,
+  dayTheme: false,
 
   lockWidgets: { weather: true, uv: true, music: false, quote: true, calendar: true },
   pinEnabled: false,
@@ -123,6 +125,8 @@ export interface RingingAlarm {
   label: string;
 }
 
+type Phase = "boot" | "lock" | "home" | "app" | "aod" | "screensaver" | "pin";
+
 interface OsState {
   /* ---- persisted settings ---- */
   settings: OsSettings;
@@ -132,7 +136,8 @@ interface OsState {
   resetSettings: () => void;
 
   /* ---- volatile session ---- */
-  phase: "boot" | "lock" | "home" | "app" | "aod" | "screensaver" | "pin";
+  phase: Phase;
+  prevPhase: Phase;
   activeApp: AppId | null;
   notifications: OsNotification[];
   ringing: RingingAlarm | null;
@@ -164,24 +169,33 @@ export const useOs = create<OsState>()(
       resetSettings: () => set({ settings: DEFAULT_SETTINGS }),
 
       phase: "boot",
+      prevPhase: "lock",
       activeApp: null,
       notifications: [],
       ringing: null,
 
       boot: () => set({ phase: "lock" }),
-      lock: () => set({ phase: "lock", activeApp: null }),
+      lock: () => set({ phase: "lock", prevPhase: "lock", activeApp: null }),
       requestUnlock: () => {
         const { settings } = get();
-        if (settings.pinEnabled && settings.pin) set({ phase: "pin" });
-        else set({ phase: "home" });
+        if (settings.pinEnabled && settings.pin) set({ phase: "pin", prevPhase: "lock" });
+        else set({ phase: "home", prevPhase: "lock" });
       },
       cancelPin: () => set({ phase: "lock" }),
-      unlock: () => set({ phase: "home" }),
-      openApp: (app) => set({ phase: "app", activeApp: app }),
-      goHome: () => set({ phase: "home", activeApp: null }),
-      enterAod: () => set({ phase: "aod" }),
-      enterScreensaver: () => set({ phase: "screensaver" }),
-      wake: () => set({ phase: "lock", activeApp: null }),
+      unlock: () => set({ phase: "home", prevPhase: "lock" }),
+      openApp: (app) => set({ phase: "app", prevPhase: "app", activeApp: app }),
+      goHome: () => set({ phase: "home", prevPhase: "home", activeApp: null }),
+      enterAod: () =>
+        set((s) => ({ prevPhase: s.phase === "aod" ? s.prevPhase : s.phase, phase: "aod" })),
+      enterScreensaver: () =>
+        set((s) => ({
+          prevPhase: s.phase === "screensaver" ? s.prevPhase : s.phase,
+          phase: "screensaver",
+        })),
+      wake: () =>
+        set((s) => ({
+          phase: s.prevPhase === "app" || s.prevPhase === "home" ? s.prevPhase : "lock",
+        })),
       notify: (title, body) =>
         set((s) => ({
           notifications: [
