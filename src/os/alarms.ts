@@ -24,9 +24,17 @@ export async function addAlarm(a: {
   minute: number;
   label: string;
 }): Promise<Alarm | null> {
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return null;
   const { data, error } = await supabase
     .from("alarms")
-    .insert({ hour: a.hour, minute: a.minute, label: a.label, enabled: true })
+    .insert({
+      user_id: userData.user.id,
+      hour: a.hour,
+      minute: a.minute,
+      label: a.label,
+      enabled: true,
+    })
     .select()
     .single();
   if (error) throw error;
