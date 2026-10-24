@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TransferRouteImport } from './routes/transfer'
+import { Route as ApiPublicTransferRouteImport } from './routes/api/public/transfer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TransferRoute = TransferRouteImport.update({
+  id: '/transfer',
+  path: '/transfer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicTransferRoute = ApiPublicTransferRouteImport.update({
+  id: '/api/public/transfer',
+  path: '/api/public/transfer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/transfer': typeof TransferRoute
+  '/api/public/transfer': typeof ApiPublicTransferRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/transfer': typeof TransferRoute
+  '/api/public/transfer': typeof ApiPublicTransferRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/transfer': typeof TransferRoute
+  '/api/public/transfer': typeof ApiPublicTransferRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/transfer' | '/api/public/transfer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/transfer' | '/api/public/transfer'
+  id: '__root__' | '/' | '/transfer' | '/api/public/transfer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TransferRoute: typeof TransferRoute
+  ApiPublicTransferRoute: typeof ApiPublicTransferRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/transfer': {
+      id: '/transfer'
+      path: '/transfer'
+      fullPath: '/transfer'
+      preLoaderRoute: typeof TransferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/transfer': {
+      id: '/api/public/transfer'
+      path: '/api/public/transfer'
+      fullPath: '/api/public/transfer'
+      preLoaderRoute: typeof ApiPublicTransferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TransferRoute: TransferRoute,
+  ApiPublicTransferRoute: ApiPublicTransferRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
