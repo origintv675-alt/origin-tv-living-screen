@@ -78,14 +78,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "OriginTV — Liquid Glass TV OS" },
+      {
+        name: "description",
+        content:
+          "A cinematic liquid-glass TV operating system with lock screen widgets, live wallpapers, AOD, cloud gallery, music and an AI assistant.",
+      },
+      { property: "og:title", content: "OriginTV — Liquid Glass TV OS" },
+      {
+        property: "og:description",
+        content:
+          "A cinematic liquid-glass TV operating system with lock screen widgets, live wallpapers, AOD, cloud gallery, music and an AI assistant.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -93,6 +99,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;800&family=Space+Grotesk:wght@400;600&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;600&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
