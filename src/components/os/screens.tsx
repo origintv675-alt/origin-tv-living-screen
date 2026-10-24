@@ -1,27 +1,24 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
   Cloud,
   CloudSun,
-  Droplets,
   Music2,
   Pause,
   Play,
   Quote as QuoteIcon,
-  SkipBack,
   SkipForward,
   Sun,
   Trash2,
-  Wind,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { useOs } from "@/os/store";
-import { useMusic, seekTo } from "@/os/music";
+import { useMusic } from "@/os/music";
 import { useWeather } from "@/os/useWeather";
 import {
   AOD_QUOTES,
   CLOCK_COLORS,
-  alarmClockFontHackUnused,
   clockFontStack,
   uvBand,
   wallpaperById,
@@ -656,7 +653,7 @@ export function HomeScreen({ onToggleBell }: { onToggleBell: () => void }) {
 
 /* weather details used by the Weather app */
 
-export function WeatherDetailRow({ icon: Icon, label, value }: { icon: typeof Droplets; label: string; value: string }) {
+export function WeatherDetailRow({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="glass flex items-center gap-4 p-5">
       <Icon className="h-6 w-6" style={{ color: "var(--accent-live)" }} />
@@ -667,5 +664,3 @@ export function WeatherDetailRow({ icon: Icon, label, value }: { icon: typeof Dr
     </div>
   );
 }
-
-export const __unused = { Wind, SkipBack, alarmClockFontHackUnused } as unknown as CSSProperties;
